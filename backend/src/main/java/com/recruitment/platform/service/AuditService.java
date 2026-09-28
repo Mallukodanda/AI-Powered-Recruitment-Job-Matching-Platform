@@ -14,7 +14,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-@SuppressWarnings("null")
 public class AuditService {
 
     private static final Logger log = LoggerFactory.getLogger(AuditService.class);

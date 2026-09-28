@@ -1,6 +1,5 @@
 package com.recruitment.platform;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recruitment.platform.dto.PlatformAnalyticsDto;
 import com.recruitment.platform.dto.UserResponse;
 import com.recruitment.platform.model.*;
@@ -18,8 +17,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -34,14 +31,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("local")
-@SuppressWarnings("null")
 class AdminAndAuditTests {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Autowired
     private AuditLogRepository auditLogRepository;

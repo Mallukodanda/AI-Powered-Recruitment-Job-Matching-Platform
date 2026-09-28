@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@SuppressWarnings("null")
 public class PlatformConfigService {
 
     private final PlatformConfigRepository configRepository;

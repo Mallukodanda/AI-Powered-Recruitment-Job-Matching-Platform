@@ -1,0 +1,10 @@
+target/
+.git/
+.gitignore
+*.log
+logs/
+uploads/
+.idea/
+.vscode/
+*.iml
+powershell.cmd

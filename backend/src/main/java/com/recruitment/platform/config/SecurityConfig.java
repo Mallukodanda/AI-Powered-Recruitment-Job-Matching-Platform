@@ -37,8 +37,8 @@ public class SecurityConfig {
                 // API documentation & dev consoles
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/actuator/health").permitAll()
-                // Milestone 1: permit existing endpoints while building out security incrementally
+                .requestMatchers("/actuator/**").permitAll()
+                // Permit existing endpoints while building out security incrementally
                 .anyRequest().permitAll()
             )
             // Allow frame embedding for in-memory H2 development console

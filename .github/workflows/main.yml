@@ -1,0 +1,88 @@
+name: Main Branch CD & Packaging Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # ==========================================
+  # 1. Full Test Suite & Quality Gate
+  # ==========================================
+  full-test-suite:
+    name: Full Test Suite Execution
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Run Backend Tests
+        run: mvn clean test -B
+        working-directory: backend
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Frontend Dependencies & Verify Build
+        run: |
+          npm ci
+          npm run build
+        working-directory: frontend
+
+  # ==========================================
+  # 2. Docker Image Creation & Packaging Gate
+  # ==========================================
+  docker-package:
+    name: Build & Package Production Container Images
+    needs: full-test-suite
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: actions/setup-buildx-action@v3
+
+      - name: Build Backend Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: false
+          tags: ai-recruitment-backend:${{ github.sha }},ai-recruitment-backend:latest
+          load: true
+
+      - name: Build Frontend Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: false
+          tags: ai-recruitment-frontend:${{ github.sha }},ai-recruitment-frontend:latest
+          load: true
+
+      - name: Prepare Deployment Artifacts
+        run: |
+          mkdir -p release-bundle
+          cp docker-compose.yml release-bundle/
+          cp -r docker release-bundle/
+          echo "Release bundle staged with commit SHA ${{ github.sha }}" > release-bundle/RELEASE_INFO.txt
+
+      - name: Archive Production Release Manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-deployment-bundle-${{ github.sha }}
+          path: release-bundle/

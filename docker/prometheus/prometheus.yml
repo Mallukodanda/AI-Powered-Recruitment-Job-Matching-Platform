@@ -1,0 +1,17 @@
+global:
+  scrape_interval: 10s
+  evaluation_interval: 10s
+
+scrape_configs:
+  - job_name: 'recruitment-backend'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['backend:8080']
+        labels:
+          application: 'ai-recruitment-platform'
+          environment: 'production'
+
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']

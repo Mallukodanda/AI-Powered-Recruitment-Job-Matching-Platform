@@ -34,6 +34,7 @@ public class AiInterviewAssistantService {
      * behavioral HR, and probing follow-up questions tailored to the candidate and job requisition.
      */
     public InterviewPrepDto generateInterviewPrep(Long jobId, Long candidateId) {
+        log.info("Generating AI interview preparation guide for job ID {} and candidate ID {}", jobId, candidateId);
         Job job = jobRepository.findById(jobId)
                 .orElseThrow(() -> new ResourceNotFoundException("Job not found with ID: " + jobId));
 

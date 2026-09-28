@@ -25,6 +25,9 @@ public class User {
     @Column(nullable = false)
     private Role role = Role.CANDIDATE;
 
+    @Column(nullable = false)
+    private boolean active = true;
+
     private LocalDateTime createdAt = LocalDateTime.now();
 
     public User() {}
@@ -54,4 +57,7 @@ public class User {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 }

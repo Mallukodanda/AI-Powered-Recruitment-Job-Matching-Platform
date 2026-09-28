@@ -21,9 +21,14 @@ public interface InterviewRepository extends JpaRepository<Interview, Long> {
 
     List<Interview> findByStatus(InterviewStatus status);
 
+    long countByStatus(InterviewStatus status);
+
     List<Interview> findByInterviewerIdAndStatus(Long interviewerId, InterviewStatus status);
 
     List<Interview> findByApplicationId(Long applicationId);
+
+    @Query("SELECT i.status, COUNT(i) FROM Interview i GROUP BY i.status")
+    List<Object[]> countInterviewsGroupedByStatus();
 
     /**
      * Checks if the interviewer already has an active SCHEDULED interview at the designated time slot.

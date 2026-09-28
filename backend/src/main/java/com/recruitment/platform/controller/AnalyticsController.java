@@ -15,14 +15,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class AnalyticsController {
 
     private final ApplicationWorkflowService workflowService;
+    private final com.recruitment.platform.service.PlatformAnalyticsService platformAnalyticsService;
 
-    public AnalyticsController(ApplicationWorkflowService workflowService) {
+    public AnalyticsController(ApplicationWorkflowService workflowService,
+                               com.recruitment.platform.service.PlatformAnalyticsService platformAnalyticsService) {
         this.workflowService = workflowService;
+        this.platformAnalyticsService = platformAnalyticsService;
     }
 
     @GetMapping("/dashboard")
     @Operation(summary = "Get high-level recruitment analytics and executive KPIs")
     public ResponseEntity<DashboardStatsDto> getDashboardStats() {
         return ResponseEntity.ok(workflowService.getDashboardStats());
+    }
+
+    @GetMapping("/platform")
+    @Operation(summary = "Get comprehensive platform-wide metrics with database aggregations")
+    public ResponseEntity<com.recruitment.platform.dto.PlatformAnalyticsDto> getPlatformAnalytics() {
+        return ResponseEntity.ok(platformAnalyticsService.getPlatformAnalytics());
     }
 }

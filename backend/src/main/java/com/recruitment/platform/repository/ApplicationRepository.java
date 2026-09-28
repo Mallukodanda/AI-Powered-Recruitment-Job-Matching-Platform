@@ -21,4 +21,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 
     @Query("SELECT AVG(a.aiMatchScore) FROM Application a")
     Double getAverageMatchScore();
+
+    @Query("SELECT a.status, COUNT(a) FROM Application a GROUP BY a.status")
+    List<Object[]> countApplicationsGroupedByStatus();
 }

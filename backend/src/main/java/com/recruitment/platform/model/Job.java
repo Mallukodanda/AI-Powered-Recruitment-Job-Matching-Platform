@@ -18,6 +18,13 @@ public class Job {
 
     private String location;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "company_id")
+    private Company company;
+
+    @Column(name = "company_name")
+    private String companyName;
+
     @Column(name = "job_type")
     private String jobType = "FULL_TIME";
 
@@ -92,6 +99,17 @@ public class Job {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public Company getCompany() { return company; }
+    public void setCompany(Company company) { 
+        this.company = company; 
+        if (company != null && (this.companyName == null || this.companyName.isBlank())) {
+            this.companyName = company.getName();
+        }
+    }
+
+    public String getCompanyName() { return companyName; }
+    public void setCompanyName(String companyName) { this.companyName = companyName; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

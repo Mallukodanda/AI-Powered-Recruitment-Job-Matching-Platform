@@ -1,0 +1,37 @@
+# Build outputs
+**/target/
+target/
+**/dist/
+dist/
+**/build/
+build/
+
+# Node / Frontend
+**/node_modules/
+node_modules/
+.npm
+.eslintcache
+
+# Uploads & Temp storage
+**/uploads/
+uploads/
+*.tmp
+*.log
+
+# IDE and Editor
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
+
+# Helper wrappers
+powershell.cmd
+backend/powershell.cmd
+
+# OS generated
+.DS_Store
+Thumbs.db

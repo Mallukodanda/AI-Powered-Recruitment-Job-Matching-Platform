@@ -1,7 +1,7 @@
 # ==========================================
 # Stage 1: Build & Package with Maven
 # ==========================================
-FROM maven:3.9.6-eclipse-temurin-17-alpine AS builder
+FROM maven:3.9.6-eclipse-temurin-21-alpine AS builder
 WORKDIR /build
 
 # Optimize layer caching: download dependencies first
@@ -15,7 +15,7 @@ RUN mvn clean package -DskipTests -B
 # ==========================================
 # Stage 2: Hardened Production Runtime
 # ==========================================
-FROM eclipse-temurin:17-jre-alpine AS runtime
+FROM eclipse-temurin:21-jre-alpine AS runtime
 
 # Install curl for container healthchecks
 RUN apk add --no-cache curl tzdata
